@@ -1,0 +1,38 @@
+<div class="sign-up-form">
+  <h1>Create Admin Account</h1>
+  <form #signUpForm="ngForm" (ngSubmit)="signUp(signUpForm.value)" >
+    <mat-form-field>
+      <input matInput placeholder="Name"
+      [(ngModel)]="user.name"
+      name="name"
+      required
+      />
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <input matInput placeholder="Email"
+      [(ngModel)]="user.email"
+      name="email"
+      required
+      />
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <input matInput placeholder="Password"
+        [(ngModel)]="user.password"
+        name="password"
+        required
+      />
+    </mat-form-field>
+    <br />
+    <mat-form-field>
+      <input matInput placeholder="Confirm Password" 
+      [(ngModel)]="user.confirmPassword"
+      name="confirmPassword"
+      required
+      />
+    </mat-form-field>
+    <br />
+    <button type="submit" mat-raised-button>Create Account</button>
+  </form>
+</div>

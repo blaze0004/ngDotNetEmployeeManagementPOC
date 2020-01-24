@@ -1,0 +1,16 @@
+<mat-toolbar color='primary'>
+    <span>
+        <a [routerLink]="[ '/' ]" style="text-decoration: none; color: white;"> 
+            Employee Management</a>
+    </span>
+
+    <span class="fill-space-between"></span>
+
+    <span>
+        <a class="nav-links" *ngIf="!(isLoggedIn | async)" [routerLink]="[ '/sign-up' ]" mat-raised-button color="accent">SignUp</a>
+        <a class="nav-links" *ngIf="!(isLoggedIn | async)" [routerLink]="[ '/sign-in' ]" mat-raised-button color="accent">SignIn</a>
+        <a class="nav-links" *ngIf="(isLoggedIn | async)" [routerLink]="[ '/add-employee' ]" mat-raised-button color="accent"> Add Employee</a>
+        
+        <a *ngIf="(isLoggedIn | async)" (click)="logOut()" mat-raised-button color="warn">Logout</a>
+    </span>
+</mat-toolbar>

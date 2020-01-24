@@ -1,0 +1,25 @@
+<div class="sign-up-form">
+    <h1>Login Admin Account</h1>
+    <form #signInForm="ngForm" (ngSubmit)="signIn(signInForm.value)">
+     
+      <mat-form-field>
+        <input matInput placeholder="Email"
+        [(ngModel)]="user.email"
+        name="email"
+        required
+        />
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <input matInput placeholder="Password"
+        [(ngModel)]="user.password"
+        name="password"
+        required
+        />
+      </mat-form-field>
+      
+      <br />
+      <button type="submit" mat-raised-button color="primary">Login Account</button>
+    </form>
+  </div>
+  

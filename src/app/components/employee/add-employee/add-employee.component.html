@@ -1,0 +1,119 @@
+<div class="add-emp-form">
+  <ng-container *ngIf="employee.id; else elseTitle">
+    <h1 >Update Employee Form</h1>
+  </ng-container>
+  <ng-template #elseTitle>
+    
+  
+  <h1>Add Employee Form</h1>
+  </ng-template>
+
+  <form
+    #employeeForm="ngForm"
+    (ngSubmit)="addOrUpdateEmployee(employeeForm.value)"
+  >
+    <div class="form-left">
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Employee Name"
+          name="name"
+          [(ngModel)]="employee.name"
+          required
+        />
+      </mat-form-field>
+      <br />
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Email"
+          name="email"
+          [(ngModel)]="employee.email"
+          required
+          email
+          />
+      </mat-form-field>
+  
+      <mat-form-field>
+        <span matPrefix>+91 &nbsp;</span>
+        <input
+          type="tel"
+          matInput
+          placeholder="Phone Number"
+          name="phone"
+          [(ngModel)]="employee.phone"
+
+          required
+  
+        />
+        <mat-icon matSuffix>mode_edit</mat-icon>
+      </mat-form-field>
+  
+      <br />
+  
+      <mat-form-field>
+        <mat-label>Select Position</mat-label>
+        <mat-select
+          [value]="selected"
+          name="profile"
+          [(ngModel)]="employee.profile"
+          required
+        >
+          <mat-option *ngFor="let profile of ['Intern', 'Trainee', 'Developer']; index as i" [value]="i">{{ profile }}</mat-option>
+          
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder="Salary"
+          name="salary"
+          [(ngModel)]="employee.salary"
+          required
+        />
+      </mat-form-field>
+  
+      <br />
+  
+      <button type="button" mat-raised-button color="accent" >
+        <label for="photo" style="padding: 10px;">Choose Photo</label>
+      </button>
+      <input
+        type="file"
+        id="photo"
+        name="photo"
+        [hidden]="true"
+        (change)="saveAndConvertImage($event)"
+      />
+  
+      <span *ngIf="fileName" style="margin-left: 20px;">{{fileName}}</span>
+      <br>
+      
+      <br />
+      <br />
+  
+      <button mat-raised-button type="submit" color="primary">
+        <ng-container *ngIf="employee.id; else elseSubmitBtn">
+          Update Employee Details
+        </ng-container>
+        <ng-template #elseSubmitBtn>
+          Add Employee Details
+        </ng-template>
+        
+      </button>
+    </div>
+
+    <div class="form-left">
+      <ng-container *ngIf="employee.id && employee.photo; else elseTemplate">
+        <img src="{{employee.photo}}"  alt="">
+      </ng-container>
+      <ng-template #elseTemplate>
+        <img src="{{previewURL}}" alt="">
+      </ng-template>
+    </div>
+    
+
+   
+
+  </form>
+</div>

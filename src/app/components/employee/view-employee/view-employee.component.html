@@ -1,0 +1,27 @@
+
+    <mat-card class="view-employee">
+      <div class="card-left">
+        <mat-card-header>
+            <mat-card-title>{{ employee.name | titlecase }}</mat-card-title>
+            <mat-card-subtitle>{{ getEmployeeProfile() | titlecase}}</mat-card-subtitle>
+          </mat-card-header>
+        
+          <mat-card-content>
+            <p>
+             <span><strong>Email: </strong> {{ employee.email }} </span> <br>
+             <span><strong>Phone Number: </strong> {{ employee.phone }} </span> <br>
+             <span><strong>Salary: </strong> {{ employee.salary | currency }} </span> <br>
+            </p>
+          </mat-card-content>
+  
+          <mat-card-actions>
+            <button (click)="deleteEmployee(employee.id)" mat-raised-button color='warn'>Delete</button>
+            <button [routerLink]="[ '/edit-employee', employee.id ]" mat-raised-button color='primary'>Edit</button>
+          </mat-card-actions>
+        
+      </div>
+      <div class="card-right">
+        <img mat-card-lg-image src="{{employee.photo}}" alt="employee photo">
+      </div>
+    </mat-card>
+    
