@@ -23,7 +23,7 @@ import {
 } from "@angular/material";
 import { DashboardComponent } from "./components/employee/dashboard/dashboard.component";
 import { AddEmployeeComponent } from "./components/employee/add-employee/add-employee.component";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { SignInComponent } from "./components/auth/sign-in/sign-in.component";
 import { SignUpComponent } from "./components/auth/sign-up/sign-up.component";
 import { ViewEmployeeComponent } from "./components/employee/view-employee/view-employee.component";
@@ -56,7 +56,7 @@ import { ViewEmployeeComponent } from "./components/employee/view-employee/view-
     MatSelectModule,
     MatCardModule,
     MatGridListModule,
-    FormsModule
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,35 +1,31 @@
 <div class="sign-up-form">
   <h1>Create Admin Account</h1>
-  <form #signUpForm="ngForm" (ngSubmit)="signUp(signUpForm.value)" >
+  <form [formGroup]='signUpForm' (ngSubmit)="signUp()" >
     <mat-form-field>
       <input matInput placeholder="Name"
-      [(ngModel)]="user.name"
+      formControlName="name"
       name="name"
-      required
       />
     </mat-form-field>
     <br />
     <mat-form-field>
       <input matInput placeholder="Email"
-      [(ngModel)]="user.email"
+      formControlName="email"
       name="email"
-      required
       />
     </mat-form-field>
     <br />
     <mat-form-field>
       <input matInput placeholder="Password"
-        [(ngModel)]="user.password"
+        formControlName="password"
         name="password"
-        required
       />
     </mat-form-field>
     <br />
     <mat-form-field>
       <input matInput placeholder="Confirm Password" 
-      [(ngModel)]="user.confirmPassword"
+      formControlName="confirmPassword"
       name="confirmPassword"
-      required
       />
     </mat-form-field>
     <br />

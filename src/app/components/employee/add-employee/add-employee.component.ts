@@ -6,6 +6,7 @@ import {
 } from "@angular/core";
 import { Employee } from "src/app/models/employee";
 import { ActivatedRoute } from "@angular/router";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-add-employee",
@@ -13,15 +14,17 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./add-employee.component.scss"]
 })
 export class AddEmployeeComponent implements OnInit {
-  public employee: Employee = new Employee(
-    null,
-    null,
-    null,
-    null,
-    null,
-    null,
-    null
-  );
+  addUpdateEmployeeForm: FormGroup;
+
+  // public employee: Employee = new Employee(
+  //   null,
+  //   null,
+  //   null,
+  //   null,
+  //   null,
+  //   null,
+  //   null
+  // );
 
   employeePhotoData: File = null;
   previewURL: any = null;
@@ -31,7 +34,8 @@ export class AddEmployeeComponent implements OnInit {
 
   constructor(
     private employeeService: EmployeeService,
-    private activeRoute: ActivatedRoute
+    private activeRoute: ActivatedRoute,
+    private formBuilder: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -39,9 +43,39 @@ export class AddEmployeeComponent implements OnInit {
       const id = params.get("id");
       if (id)
         this.employeeService.getEmployee(id).then(emp => {
-          this.employee = emp;
-          
+          this.addUpdateEmployeeForm.setValue(emp)
+          console.log(this.addUpdateEmployeeForm.controls)
         });
+    });
+
+    this.addUpdateEmployeeForm = this.formBuilder.group({
+      id: this.formBuilder.control("", [Validators.minLength(24), Validators.maxLength(24)]),
+      name: this.formBuilder.control("", [
+        Validators.required,
+        Validators.minLength(3),
+        Validators.pattern(
+          new RegExp("^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$")
+        )
+      ]),
+      email: this.formBuilder.control("", [
+        Validators.required,
+        Validators.email
+      ]),
+      phone: this.formBuilder.control("", [
+        Validators.required,
+        Validators.minLength(10),
+        Validators.maxLength(10)
+      ]),
+      salary: this.formBuilder.control(0, [
+        Validators.required,
+        Validators.min(0)
+      ]),
+      profile: this.formBuilder.control(0, [
+        Validators.required,
+        Validators.min(0),
+        Validators.max(2)
+      ]),
+      photo: this.formBuilder.control({}, [Validators.required])
     });
   }
 
@@ -64,45 +98,32 @@ export class AddEmployeeComponent implements OnInit {
 
     reader.onload = _event => {
       this.previewURL = reader.result;
-      this.employee.photo = this.previewURL;
+      this.addUpdateEmployeeForm.controls.photo.setValue(this.previewURL)
     };
   }
 
-  addOrUpdateEmployee({
-    id,
-    name,
-    phone,
-    email,
-    salary,
-    profile,
-    photo
-  }: Employee) {
+  addOrUpdateEmployee() {
     let employeeFormData: FormData = new FormData();
 
-    this.employee = {
-      ...this.employee,
-      name,
-      email,
-      phone,
-      salary,
-      profile,
-      photo
-    };
+    this.addUpdateEmployeeForm.patchValue( {
+      ...this.addUpdateEmployeeForm.value,
+    });
 
-    employeeFormData.append("name", name);
-    employeeFormData.append("email", email);
-    employeeFormData.append("phone", phone);
-    employeeFormData.append("salary", salary.toString());
-    employeeFormData.append("profile", profile.toString());
-    if (!this.employee.id) {
+    employeeFormData.append("name", this.addUpdateEmployeeForm.controls.name.value);
+    employeeFormData.append("email", this.addUpdateEmployeeForm.controls.email.value);
+    employeeFormData.append("phone", this.addUpdateEmployeeForm.controls.phone.value);
+    employeeFormData.append("salary", this.addUpdateEmployeeForm.controls.salary.value);
+    employeeFormData.append("profile", this.addUpdateEmployeeForm.controls.profile.value);
+    debugger;
+    if (this.addUpdateEmployeeForm.controls.id.value === '') {
       employeeFormData.append("photo", this.employeePhotoData);
+      console.log('no id')
       this.employeeService.create(employeeFormData);
     } else {
-      if (this.employeePhotoData) employeeFormData.append('photo', this.employeePhotoData)
-
-      !id
-        ? employeeFormData.append("id", this.employee.id)
-        : employeeFormData.append("id", id);
+      console.log('id')
+      if (this.employeePhotoData)
+        employeeFormData.append("photo", this.employeePhotoData);
+      employeeFormData.append('id', this.addUpdateEmployeeForm.controls.id.value)
 
       this.employeeService.Update(employeeFormData);
     }

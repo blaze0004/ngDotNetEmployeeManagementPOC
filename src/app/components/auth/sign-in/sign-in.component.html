@@ -1,20 +1,20 @@
 <div class="sign-up-form">
     <h1>Login Admin Account</h1>
-    <form #signInForm="ngForm" (ngSubmit)="signIn(signInForm.value)">
+    <form [formGroup]="signInForm" (ngSubmit)="signIn()">
      
       <mat-form-field>
         <input matInput placeholder="Email"
-        [(ngModel)]="user.email"
+        formControlName="email"
         name="email"
-        required
+        type="email"
         />
       </mat-form-field>
       <br />
       <mat-form-field>
         <input matInput placeholder="Password"
-        [(ngModel)]="user.password"
+        formControlName="password"
         name="password"
-        required
+        type="password"
         />
       </mat-form-field>
       

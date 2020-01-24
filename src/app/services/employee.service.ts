@@ -58,11 +58,12 @@ export class EmployeeService {
   }
 
   public async create(employeeFormData: FormData) {
+    console.log('create')
     const headers = (await this.isLoggedIn())
       .delete("Content-Type")
       .append("Content-Type", "multipart/form-data");
 
-   
+    console.log(headers.keys())
     if (headers) {
       await this.http
         .post(this.employeesUrl, employeeFormData, {
@@ -75,7 +76,9 @@ export class EmployeeService {
           console.log(res)
           this.router.navigate(['/'])
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err)
+        });
     }
   }
 
